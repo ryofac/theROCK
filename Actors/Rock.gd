@@ -2,6 +2,7 @@ extends Actor
 class_name Rock
 
 var velocity = Vector2.ZERO
+var stopped = velocity.x == 0
 
 
 func _physics_process(delta):
@@ -13,16 +14,19 @@ func _physics_process(delta):
 		Global.players_colliding = []
 	velocity.y += gravity * delta
 	
-	# ======= APROACH VELOCITY ======= => move_towards manual
-	var _newVel = apply_impulse_velocity();
+	# ======= APROACH VELOCITY ======= => move_towards manuals
+	var _newVel = 0
+	
+	if len(Global.players_colliding) > 1: # "Static Atrite"
+		_newVel = apply_impulse_velocity();
+		
 	var _dif = abs(_newVel - velocity.x);
 	var _sign = sign(_newVel - velocity.x)
-	var _acc = 5 if _sign > 0 else 1
+	var _acc = 10 if _sign > 0 else 1
 	if (_dif > _acc):
 		velocity.x += _acc * _sign
 	else:
 		velocity.x = _newVel
-	
 	velocity = move_and_slide(velocity, Vector2.UP)
 
 
