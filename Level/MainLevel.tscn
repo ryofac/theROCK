@@ -85,7 +85,7 @@ script = ExtResource( 3 )
 playerScene = ExtResource( 4 )
 
 [node name="TheRock" parent="." instance=ExtResource( 5 )]
-position = Vector2( 546, 200 )
+position = Vector2( 520, 93 )
 
 [node name="Camera2D" type="Camera2D" parent="TheRock"]
 position = Vector2( -4.18243, 36.4743 )

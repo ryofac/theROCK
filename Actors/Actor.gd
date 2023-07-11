@@ -7,7 +7,6 @@ export var gravity: = 1000.0
 var FLOOR_NORMAL = Vector2.UP
 var LINEAR_VELOCITY = 10
 var players_colliding = []
-var is_first_colliding = false
 var players_spawned = 0
 
 
