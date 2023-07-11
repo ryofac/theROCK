@@ -1,37 +1,27 @@
 extends Actor
 class_name Rock
 
-export var LINEAR_VELOCITY = 2;
-export var WEIGHT = 100;
-var player_count = 0;
-var velocity = Vector2.ZERO;
-var caiu = false;
+var velocity = Vector2.ZERO
 
 
 func _physics_process(delta):
-	get_node("Label").text = "Player count: " + str(player_count) + "\nVelocity X: " + str(velocity.x)
+	$Label.text = "\nVelocity X: " + str(velocity.x) + "\nFIRST COLLIDER: " + str(Global.is_first_colliding)
+	$Label.text += '\n Players colliding: ' + str(len(Global.players_colliding))
+	var collider = $RayCast2D.get_collider()
+	if not collider:
+		Global.players_colliding = []
 
-	velocity.x = get_velocity_x(player_count)
+	velocity.y += gravity * delta
 	
-	velocity.y += gravity * delta	
+	# ======= APROACH VELOCITY ======= => move_towards manual
+	var _newVel = apply_impulse_velocity();
+	var _dif = abs(_newVel - velocity.x);
+	var _sign = sign(_newVel - velocity.x)
+	var _acc = 5 if _sign > 0 else 1
+	if (_dif > _acc):
+		velocity.x += _acc * _sign
+	else:
+		velocity.x = _newVel
 	
 	velocity = move_and_slide(velocity, Vector2.UP)
 	
-
-
-	
-
-func get_velocity_x(player_count):
-	var x = (player_count * LINEAR_VELOCITY);
-	x  = clamp(x, 0, 500);
-	return x
-	
-
-
-func _on_Area2D_area_entered(area):
-	print('Increased!');
-	player_count += 1;
-
-func _on_Area2D_area_exited(area):
-	print("Reduced!");
-	player_count -= 1;

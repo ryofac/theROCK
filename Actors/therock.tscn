@@ -1,14 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Actors/Rock.gd" type="Script" id=1]
 [ext_resource path="res://Pixel Adventure 1/Free/Traps/Rock Head/Idle.png" type="Texture" id=2]
 [ext_resource path="res://PIXELADE.TTF" type="DynamicFontData" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 21, 20.5 )
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 23.5, 21 )
+extents = Vector2( 20.7051, 20.5 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 12
@@ -17,34 +14,30 @@ font_data = ExtResource( 3 )
 [sub_resource type="Theme" id=4]
 default_font = SubResource( 3 )
 
-[node name="TheRock" type="KinematicBody2D"]
+[node name="TheRock" type="KinematicBody2D" groups=[
+"rock",
+]]
 scale = Vector2( 1.97276, 2.02294 )
+collision_mask = 5
 script = ExtResource( 1 )
 
 [node name="Idle" type="Sprite" parent="."]
-position = Vector2( 27, 27 )
 scale = Vector2( 1.2381, 1.2381 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 27, 26.5 )
 shape = SubResource( 1 )
 
-[node name="Area2D" type="Area2D" parent="."]
-position = Vector2( 27, 26 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-modulate = Color( 0, 0.701961, 0.258824, 1 )
-position = Vector2( 0.5, 0 )
-shape = SubResource( 2 )
-
 [node name="Label" type="Label" parent="."]
-margin_left = 7.60356
-margin_top = -21.7505
-margin_right = 47.6036
-margin_bottom = -7.75053
+margin_left = -19.5858
+margin_top = -39.7276
+margin_right = 20.4143
+margin_bottom = -25.7277
 theme = SubResource( 4 )
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
-[connection signal="area_exited" from="Area2D" to="." method="_on_Area2D_area_exited"]
-[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2( -0.267158, 5.86197 )
+rotation = 3.14159
+enabled = true
+cast_to = Vector2( 30, 0 )
+
