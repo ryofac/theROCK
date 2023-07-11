@@ -1,8 +1,8 @@
 extends Node
-
 var rockNode : Node
-
 export var playerScene : PackedScene
+
+onready var camera = get_parent().get_node("TheRock/Camera2D")
 
 
 # Called when the node enters the scene tree for the first time.
@@ -16,7 +16,7 @@ func _spawn_player(_x, _y):
 	player.position.x = _x
 	player.position.y = _y
 	player.id = Global.players_spawned
-	player.get_node("Label").text = str(player.id)
+	player.get_node("Label").text = "MY ID: " + str(player.id)
 	get_parent().add_child(player)
 	
 	
@@ -24,7 +24,7 @@ func _spawn_player(_x, _y):
 func _process(delta):
 	var players = get_tree().get_nodes_in_group("player")
 	if Input.is_action_just_pressed("spawn_player"):
-		_spawn_player(0, rand_range(10, 200))
+		_spawn_player(rand_range(camera.global_position.x - 200, camera.global_position.x - 400), rand_range(camera.global_position.y - 100, camera.global_position.y - 200))
 	if Input.is_action_just_pressed("delete_player"):
 		print(players)
 		delete_random_player(players)
