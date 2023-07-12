@@ -17,7 +17,7 @@ export var websocket: PackedScene
 
 func _ready() -> void:
 	var _ws = websocket.instance()
-	get_parent().add_child(_ws)
+	self.add_child(_ws)
 	print("Websocket instanciado: " + str(_ws))
 
 

@@ -7,6 +7,9 @@ var id = 0;
 onready var my_sprite = get_node("Sprite")
 # Vel = time * 
 
+func is_on_list():
+	return self in Global.players_colliding
+
 func _physics_process(delta):
 	_velocity.x = speed * (Input.get_action_strength("move_right") - Input.get_action_strength("move_left"))
 	if Input.is_action_just_pressed("jump") and is_on_floor():
@@ -25,7 +28,11 @@ func _physics_process(delta):
 	else:
 		if self in Global.players_colliding:
 			Global.players_colliding.erase(self)
-	_set_sprite(_velocity.x, _velocity.y)
+			
+	# Atribuir Sprite:
+	if is_on_list(): my_sprite.play("running")
+	else: _set_sprite(_velocity.x, _velocity.y)
+	
 	if position.y > 1000:
 		self.kill()
 
