@@ -1,0 +1,150 @@
+[gd_scene load_steps=38 format=2]
+
+[ext_resource path="res://Actors/Player.gd" type="Script" id=1]
+[ext_resource path="res://Level/Controller.gd" type="Script" id=2]
+[ext_resource path="res://Actors/Players/Frog.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Actors/Players/Finn.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Actors/Sprites/Ninja Frog/Idle (32x32).png" type="Texture" id=5]
+[ext_resource path="res://Actors/Sprites/Ninja Frog/Jump (32x32).png" type="Texture" id=6]
+[ext_resource path="res://Actors/Sprites/Ninja Frog/Run (32x32).png" type="Texture" id=7]
+[ext_resource path="res://Actors/Players/Ninja.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Actors/Players/VirtualGuy.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Control/WebSocket.tscn" type="PackedScene" id=10]
+
+[sub_resource type="RectangleShape2D" id=27]
+extents = Vector2( 10, 15 )
+
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=29]
+atlas = ExtResource( 5 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 5 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 5 )
+region = Rect2( 96, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 5 )
+region = Rect2( 128, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 5 )
+region = Rect2( 160, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 5 )
+region = Rect2( 192, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 5 )
+region = Rect2( 224, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 5 )
+region = Rect2( 256, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 5 )
+region = Rect2( 288, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 5 )
+region = Rect2( 320, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 7 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 7 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 7 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 7 )
+region = Rect2( 96, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = ExtResource( 7 )
+region = Rect2( 128, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=18]
+atlas = ExtResource( 7 )
+region = Rect2( 160, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=19]
+atlas = ExtResource( 7 )
+region = Rect2( 192, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = ExtResource( 7 )
+region = Rect2( 224, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = ExtResource( 7 )
+region = Rect2( 256, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 7 )
+region = Rect2( 288, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = ExtResource( 7 )
+region = Rect2( 320, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = ExtResource( 7 )
+region = Rect2( 352, 0, 32, 32 )
+
+[sub_resource type="SpriteFrames" id=25]
+animations = [ {
+"frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "jump",
+"speed": 24.0
+}, {
+"frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
+"loop": true,
+"name": "running",
+"speed": 24.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=26]
+extents = Vector2( 11, 10 )
+
+[sub_resource type="PackedScene" id=30]
+_bundled = {
+"conn_count": 3,
+"conns": PoolIntArray( 1073741831, 1073741830, 35, 34, 2, 0, 1073741833, 1073741832, 37, 36, 2, 0, 1073741835, 1073741834, 39, 38, 2, 0 ),
+"editable_instances": [  ],
+"names": PoolStringArray( "Player", "KinematicBody2D", "player", "position", "collision_mask", "script", "CollisionShape2D", "CollisionShape2D", "position", "shape", "Label", "Label", "margin_left", "margin_top", "margin_right", "margin_bottom", "Sprite", "AnimatedSprite", "position", "scale", "frames", "animation", "playing", "Area2D", "Area2D", "collision_mask", "CollisionShape2D2", "CollisionShape2D", "modulate", "shape", "RayCast2D", "RayCast2D", "enabled", "cast_to", "_on_Player_tree_exiting", "tree_exiting", "_on_Area2D_area_entered", "area_entered", "_on_Area2D_area_exited", "area_exited" ),
+"node_count": 7,
+"node_paths": [ NodePath("."), NodePath("."), NodePath("."), NodePath("."), NodePath("./Area2D"), NodePath("."), NodePath("."), NodePath("."), NodePath("."), NodePath("Area2D"), NodePath("."), NodePath("Area2D") ],
+"nodes": PoolIntArray( -1, -1, 1, 0, -1, 3, 3, 0, 4, 1, 5, 2, 1, 2, 1073741824, 0, 7, 6, -1, 2, 8, 3, 9, 4, 0, 1073741825, 0, 11, 10, -1, 4, 12, 5, 13, 6, 14, 7, 15, 8, 0, 1073741826, 0, 17, 16, -1, 5, 18, 9, 19, 10, 20, 11, 21, 12, 22, 13, 0, 1073741827, 0, 24, 23, -1, 1, 25, 14, 0, 1073741828, 0, 27, 26, -1, 2, 28, 15, 29, 16, 0, 1073741829, 0, 31, 30, -1, 2, 32, 17, 33, 18, 0 ),
+"variants": [ Vector2( 0, -17 ), 7, ExtResource( 1 ), Vector2( 0, 1 ), SubResource( 27 ), -16.0, -28.0, 24.0, -14.0, Vector2( 0.25, -1 ), Vector2( 0.921875, 0.96875 ), SubResource( 25 ), "jump", true, 3, Color( 0.878431, 0, 0.678431, 1 ), SubResource( 26 ), true, Vector2( 15, 0 ) ],
+"version": 2
+}
+
+[node name="Controller" type="Node"]
+script = ExtResource( 2 )
+playerScene = SubResource( 30 )
+finnNode = ExtResource( 4 )
+frogNode = ExtResource( 3 )
+ninjaNode = ExtResource( 8 )
+guyNode = ExtResource( 9 )
+websocket = ExtResource( 10 )

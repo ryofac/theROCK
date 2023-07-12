@@ -1,6 +1,7 @@
 extends Node
 
 export var playerScene : PackedScene
+onready var tileMap = get_parent().get_node("TileMap")
 onready var rockNode = get_parent().get_node("TheRock")
 onready var camera = get_parent().get_node("TheRock/Camera2D")
 
@@ -8,7 +9,6 @@ export var finnNode: PackedScene
 export var frogNode: PackedScene
 export var ninjaNode: PackedScene
 export var guyNode:  PackedScene
-
 export var websocket: PackedScene
 
 
@@ -38,15 +38,18 @@ func _spawn_player(_x=camera.global_position.x - 500, _y=rand_range(camera.globa
 func _process(delta):
 	var players = get_tree().get_nodes_in_group("player")
 	var player_count = len(players)
+	print('executando')
 	
 	if player_count <= 50:
 		if Input.is_action_just_pressed("spawn_player"):
+			print('Tentando spwantar')
 			# Spawn player
 			_spawn_player()
-	get_parent().get_node("TheRock/Label").text += '\n Player count = ' + str(player_count) if player_count <= 50 else "\nNão pode haver mais que 50 jogadores!"
+#	get_parent().get_node("TheRock/Label").text += '\n Player count = ' + str(player_count) if player_count <= 50 else "\nNão pode haver mais que 50 jogadores!"
 		
 	if Input.is_action_just_pressed("delete_player"):
 		delete_random_player(players)
+	adjust_zoom(players)
 
 
 
@@ -55,5 +58,18 @@ func delete_random_player(player_list):
 		var random_player = player_list[randi() % len(player_list)]
 		random_player.kill()
 		
-	
+func adjust_zoom(player_list):
+	var factor_zoom = floor(len(player_list) / 5) * 0.1
+	var _newZoom = 1 + factor_zoom
+	var _actualZoom = camera.zoom.x
+	var _diff = (_newZoom - _actualZoom)
+	var _vel = 0.025
+	if abs(_diff) > _vel: 
+		_actualZoom += _vel
+	else:
+		_actualZoom = _newZoom
+	print(_actualZoom)
+	camera.zoom = Vector2(_actualZoom, _actualZoom)
+	camera.limit_bottom = 800 + 80 * _actualZoom
+
 	

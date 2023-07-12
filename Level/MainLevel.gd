@@ -1,16 +1,22 @@
 extends TileMap
 
-var UPDATE_RATE = 30
+onready var rock = get_parent().get_node("TheRock")
+onready var camera = rock.get_node("Camera2D")
+var UPDATE_RATE = 32
+var _terrains_created = 0
+
 
 func _ready():
 	for i in range(0, 3):
-		for cell_x in range(0, 32):
+		for cell_x in range(-32, 32):
 			_create_tile(cell_x, 20, 1) if i <= 0 else _create_tile(cell_x, 20 + i, 0)
 
 func _process(delta):
-	var posx = get_node("TheRock/Camera2D").global_position.x
-	if int(posx) % UPDATE_RATE == 0: # Updates the tiles under the rock
+	var posx = camera.global_position.x
+	rock.get_node("Label").text = "CREATED TERRAINS: " + str(_terrains_created) + "\n POSX: " + str(posx)
+	if floor(int(posx) / UPDATE_RATE) >= _terrains_created:
 		adjust_terrain()
+		_terrains_created += 1
 
 
 
@@ -28,12 +34,12 @@ func _delete_tile(_x, _y):
 
 func adjust_terrain():
 	var CELL_SIZE = 32
-	var posx = get_node("TheRock/Camera2D").global_position.x
+	var posx = camera.global_position.x
 
 	var cx = floor(posx / CELL_SIZE) # obtaining the current x position for the cel
 	
-	var border = get_node("TheRock").velocity.x / 2
-	
+	var border = 20 * camera.zoom.x
+
 	# Delete 3 lines of BORDER tiles to the left:
 	for i in range(0, 4):
 		for cell_x in range(0, cx - border):

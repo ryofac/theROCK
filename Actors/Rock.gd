@@ -3,14 +3,19 @@ class_name Rock
 
 var velocity = Vector2.ZERO
 var stopped = velocity.x == 0
-export var WEIGHT = 200;
+export var WEIGHT = 20;
+export var ATRITE = 2;
 
-# vel =
+
+# Velocity = acc * time => +== acc = F/m
+# F = 1
+# M = 100
 
 
 func _physics_process(delta):
-	$Label.text = "\nVelocity X: " + str(velocity.x)
-	$Label.text += '\n Players colliding: ' + str(len(Global.players_colliding))
+	var force_applyed = LINEAR_VELOCITY * len(Global.players_colliding)
+#	$Label.text = "\nVelocity X: " + str(velocity.x)
+#	$Label.text += '\n Players colliding: ' + str(len(Global.players_colliding))
 
 	var collider = $RayCast2D.get_collider()
 	if not collider:
@@ -25,7 +30,7 @@ func _physics_process(delta):
 		
 	var _dif = abs(_newVel - velocity.x);
 	var _sign = sign(_newVel - velocity.x)
-	var _acc = 10 if _sign > 0 else 1
+	var _acc = force_applyed / WEIGHT if _sign > 0 else ATRITE
 	if (_dif > _acc):
 		velocity.x += _acc * _sign
 	else:
