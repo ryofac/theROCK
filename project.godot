@@ -33,12 +33,17 @@ _global_script_class_icons={
 [application]
 
 config/name="Rasberrypi"
-run/main_scene="res://Level/MainLevel.tscn"
+run/main_scene="res://Level/Level.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 Global="*res://Actors/Actor.gd"
+
+[display]
+
+window/size/resizable=false
+window/stretch/aspect="keep"
 
 [gui]
 
