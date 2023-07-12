@@ -3,6 +3,9 @@ class_name Rock
 
 var velocity = Vector2.ZERO
 var stopped = velocity.x == 0
+export var WEIGHT = 200;
+
+# vel =
 
 
 func _physics_process(delta):
@@ -15,7 +18,6 @@ func _physics_process(delta):
 	velocity.y += gravity * delta
 	
 	# ======= APROACH VELOCITY ======= => move_towards manuals
-	
 	var _newVel = 0
 	
 	if len(Global.players_colliding) > 1: # "Static Atrite"
@@ -28,6 +30,8 @@ func _physics_process(delta):
 		velocity.x += _acc * _sign
 	else:
 		velocity.x = _newVel
+		
+		
 	apply_rotation(velocity.x)
 	Global.rock_velocity = velocity.x
 	velocity = move_and_slide(velocity, Vector2.UP)

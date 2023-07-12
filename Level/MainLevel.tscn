@@ -15,6 +15,7 @@
 [ext_resource path="res://Actors/Sprites/Ninja Frog/Run (32x32).png" type="Texture" id=13]
 [ext_resource path="res://Actors/Sprites/Ninja Frog/Jump (32x32).png" type="Texture" id=14]
 [ext_resource path="res://Control/WebSocket.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Level/LevelSprites/Section 3_desert1-1.png" type="Texture" id=15]
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -27,7 +28,7 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 0/texture = ExtResource( 6 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
-0/region = Rect2( 96, 79, 32, 32 )
+0/region = Rect2( 98, 79, 32, 32 )
 0/tile_mode = 0
 0/occluder_offset = Vector2( 0, 0 )
 0/navigation_offset = Vector2( 0, 0 )
@@ -48,7 +49,7 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 1/texture = ExtResource( 6 )
 1/tex_offset = Vector2( 0, 0 )
 1/modulate = Color( 1, 1, 1, 1 )
-1/region = Rect2( 96, 64, 32, 32 )
+1/region = Rect2( 98, 64, 32, 32 )
 1/tile_mode = 0
 1/occluder_offset = Vector2( 0, 0 )
 1/navigation_offset = Vector2( 0, 0 )
@@ -226,23 +227,39 @@ smoothing_enabled = true
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="SkyBackground" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 2, 1 )
 motion_mirroring = Vector2( 1080, 0 )
 
 [node name="Sky" type="TextureRect" parent="ParallaxBackground/SkyBackground"]
 show_behind_parent = true
 margin_left = -129.0
-margin_top = -326.0
+margin_top = -273.0
 margin_right = 1100.0
-margin_bottom = 720.0
+margin_bottom = 559.0
 texture = ExtResource( 1 )
 expand = true
 
-[node name="CactusBackground" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="MontainsBackground" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.5, 1 )
 motion_mirroring = Vector2( 1080, 0 )
 
+[node name="Montains" type="TextureRect" parent="ParallaxBackground/MontainsBackground"]
+margin_left = -65.0
+margin_top = 254.0
+margin_right = 1070.0
+margin_bottom = 607.0
+rect_scale = Vector2( 1.00461, 1.01654 )
+texture = ExtResource( 15 )
+expand = true
+
+[node name="CactusBackground" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 1253, 0 )
+
 [node name="Cactus" type="TextureRect" parent="ParallaxBackground/CactusBackground"]
-margin_left = -6.0
-margin_top = 500.0
-margin_right = 1074.0
-margin_bottom = 615.0
+margin_left = -132.0
+margin_top = 388.0
+margin_right = 1121.0
+margin_bottom = 653.0
 texture = ExtResource( 7 )
+expand = true
+stretch_mode = 1
