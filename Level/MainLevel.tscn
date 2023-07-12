@@ -14,6 +14,7 @@
 [ext_resource path="res://Actors/Sprites/Ninja Frog/Idle (32x32).png" type="Texture" id=12]
 [ext_resource path="res://Actors/Sprites/Ninja Frog/Run (32x32).png" type="Texture" id=13]
 [ext_resource path="res://Actors/Sprites/Ninja Frog/Jump (32x32).png" type="Texture" id=14]
+[ext_resource path="res://Control/WebSocket.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Level/LevelSprites/Section 3_desert1-1.png" type="Texture" id=15]
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
@@ -210,6 +211,7 @@ finnNode = ExtResource( 9 )
 frogNode = ExtResource( 8 )
 ninjaNode = ExtResource( 10 )
 guyNode = ExtResource( 11 )
+websocket = ExtResource( 15 )
 
 [node name="TheRock" parent="." instance=ExtResource( 5 )]
 position = Vector2( 536, 170 )

@@ -9,8 +9,16 @@ export var frogNode: PackedScene
 export var ninjaNode: PackedScene
 export var guyNode:  PackedScene
 
+export var websocket: PackedScene
+
 
 # SPAWN_PLAYER: _spawn_player
+
+
+func _ready() -> void:
+	var _ws = websocket.instance()
+	get_parent().add_child(_ws)
+	print("Websocket instanciado: " + str(_ws))
 
 
 func _spawn_player(_x=camera.global_position.x - 500, _y=rand_range(camera.global_position.y - 100, camera.global_position.y - 200)):
