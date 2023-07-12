@@ -5,10 +5,6 @@ onready var tileMap = get_parent().get_node("TileMap")
 onready var rockNode = get_parent().get_node("TheRock")
 onready var camera = get_parent().get_node("TheRock/Camera2D")
 
-export var finnNode: PackedScene
-export var frogNode: PackedScene
-export var ninjaNode: PackedScene
-export var guyNode:  PackedScene
 export var websocket: PackedScene
 
 
@@ -28,16 +24,15 @@ func _spawn_player(_x=null, _y=null):
 	if (_y == null):
 		_y = camera.global_position.y - 240 * camera.zoom.y
 	var name_list = ['Patro', 'Hermínio', 'Henrique', 'Lívia', 'Meireles', 'Ryan']
-	var player_list = [finnNode, frogNode, ninjaNode]
-	var player = player_list[randi() % len(player_list)].instance()
+		
+	var player = playerScene.instance()
 	Global.players_spawned += 1	
 	player.add_to_group("player")
 	player.get_node("Label").text = name_list[randi() % len(name_list)]
 	player.position.x = _x
 	player.position.y = _y
-	var _spawnBorder = 48
-	player.global_position.x = camera.global_position.x - camera.zoom.x * 500 + _spawnBorder
 	player.id = Global.players_spawned
+	player.spriteIndex = randi() % 3
 	get_parent().add_child(player)
 	print("Player instanciado na posicao: " + str(_x) + " e " + str(_y))
 	return player

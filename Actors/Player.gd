@@ -4,12 +4,20 @@ var jump_impulse = 500.0
 var inertia = 10.0
 var index = 0;
 var id = 0;
-onready var my_sprite = get_node("Sprite")
+var spriteIndex = 0
+onready var my_sprites = [
+	get_node("SpriteNinja"),
+	get_node("SpriteFinn"),
+	get_node("SpriteFrog")
+]
+onready var my_sprite = my_sprites[spriteIndex]
 onready var camera = get_parent().get_node_or_null("TheRock/Camera2D")
 
 func _ready() -> void:
+	my_sprite = my_sprites[spriteIndex]
+	for i in range(len(my_sprites)):
+		my_sprites[i].visible = true if i == spriteIndex else false
 	my_sprite.connect("animation_finished", self, "animation_finished")
-	get_node("activateCollisions").time_left = 0.50
 
 func animation_finished():
 	if my_sprite.animation == "appearing":
@@ -17,6 +25,7 @@ func animation_finished():
 
 func is_on_list():
 	return self in Global.players_colliding
+	
 
 func _physics_process(delta):
 	_velocity.x = speed if is_on_floor() else 0
