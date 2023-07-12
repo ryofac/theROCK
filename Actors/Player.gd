@@ -27,6 +27,12 @@ func is_on_list():
 	return self in Global.players_colliding
 	
 
+func removeFromSpawnList():
+	var _control = get_parent().get_node("Controller")
+	if self in _control.playersToSpawn:
+		_control.playersToSpawn.erase(self)
+
+
 func _physics_process(delta):
 	_velocity.x = speed if is_on_floor() else 0
 	if Input.is_action_just_pressed("jump") and is_on_floor():
@@ -40,7 +46,9 @@ func _physics_process(delta):
 	if not is_on_floor():
 		var _spawnBorder = 48
 		global_position.x = camera.global_position.x - camera.zoom.x * 500 + _spawnBorder
-		
+	elif global_position.y >= 600:
+		# Pisei no chão, devo sair da lista de players a serem spawnados
+		removeFromSpawnList()
 	
 	var collided = $RayCast2D.get_collider()
 	if collided:
@@ -61,6 +69,7 @@ func _physics_process(delta):
 		else: _set_sprite(_velocity.x, _velocity.y)
 	
 	if position.y > 1000:
+		removeFromSpawnList()
 		self.kill()
 
 
@@ -74,15 +83,16 @@ func _set_sprite(_velx, _vely):
 	if _vely < 0:
 		my_sprite.play("jump")
 
+
 func _on_Player_tree_exiting():
 	if self in Global.players_colliding:
 		Global.players_colliding.erase(self)
+
 
 func kill():
 	print("Player de ID " + str(id) + " morto.")
 	my_sprite.play("disappearing")
 	self.queue_free()
-
 
 
 func _on_activateCollisions_timeout() -> void:

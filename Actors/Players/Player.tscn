@@ -672,21 +672,21 @@ cast_to = Vector2( 15, 0 )
 
 [node name="activateCollisions" type="Timer" parent="."]
 wait_time = 0.5
-autostart = true
+one_shot = true
 
 [node name="SpriteNinja" type="AnimatedSprite" parent="."]
 visible = false
 position = Vector2( 0, -1 )
 frames = SubResource( 78 )
 animation = "appearing"
-frame = 1
+frame = 5
 playing = true
 
 [node name="SpriteFinn" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 103 )
 animation = "appearing"
-frame = 6
+frame = 3
 playing = true
 
 [node name="SpriteFrog" type="AnimatedSprite" parent="."]
@@ -694,7 +694,7 @@ visible = false
 position = Vector2( 0.25, -1 )
 frames = SubResource( 118 )
 animation = "disappearing"
-frame = 4
+frame = 3
 playing = true
 
 [connection signal="tree_exiting" from="." to="." method="_on_Player_tree_exiting"]

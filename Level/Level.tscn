@@ -9,7 +9,7 @@
 
 [node name="Level" type="Node"]
 __meta__ = {
-"_edit_horizontal_guides_": [ 699.0, 289.0 ],
+"_edit_horizontal_guides_": [ 699.0, 289.0, 606.0 ],
 "_edit_vertical_guides_": [ 820.0 ]
 }
 

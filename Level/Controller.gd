@@ -4,11 +4,8 @@ export var playerScene : PackedScene
 onready var tileMap = get_parent().get_node("TileMap")
 onready var rockNode = get_parent().get_node("TheRock")
 onready var camera = get_parent().get_node("TheRock/Camera2D")
-
 export var websocket: PackedScene
-
-
-# SPAWN_PLAYER: _spawn_player
+var playersToSpawn = []
 
 
 func _ready() -> void:
@@ -16,7 +13,6 @@ func _ready() -> void:
 	self.add_child(_ws)
 	print("Websocket instanciado: " + str(_ws))
 	
-
 
 func _spawn_player(_x=null, _y=null):
 	if (_x == null):
@@ -35,8 +31,8 @@ func _spawn_player(_x=null, _y=null):
 	player.spriteIndex = randi() % 3
 	get_parent().add_child(player)
 	print("Player instanciado na posicao: " + str(_x) + " e " + str(_y))
-	return player
 	
+	return player
 	
 	
 func _process(delta):
@@ -47,8 +43,16 @@ func _process(delta):
 		if Input.is_action_just_pressed("spawn_player"):
 			print('Tentando spwanar')
 			# Spawn player
-			_spawn_player()
-#	get_parent().get_node("TheRock/Label").text += '\n Player count = ' + str(player_count) if player_count <= 50 else "\nNão pode haver mais que 50 jogadores!"
+			var _pl = _spawn_player()
+			_pl.set_process(false)
+			playersToSpawn.append(_pl)
+	
+	# Permitir movimento apenas do primeiro jogador a ser spawnado.
+	if len(playersToSpawn) > 0:
+		playersToSpawn[0].set_process(true)
+		var _timer = playersToSpawn[0].get_node("activateCollisions")
+		if _timer.is_stopped():
+			_timer.start()
 		
 	if Input.is_action_just_pressed("delete_player"):
 		delete_random_player(players)
