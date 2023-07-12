@@ -5,6 +5,7 @@ var inertia = 10.0
 var index = 0;
 var id = 0;
 onready var my_sprite = get_node("Sprite")
+# Vel = time * 
 
 func _physics_process(delta):
 	_velocity.x = speed * (Input.get_action_strength("move_right") - Input.get_action_strength("move_left"))
