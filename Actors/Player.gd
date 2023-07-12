@@ -4,18 +4,44 @@ var jump_impulse = 500.0
 var inertia = 10.0
 var index = 0;
 var id = 0;
-onready var my_sprite = get_node("Sprite")
-# Vel = time * 
+var spriteIndex = 0
+onready var my_sprites = [
+	get_node("SpriteNinja"),
+	get_node("SpriteFinn"),
+	get_node("SpriteFrog")
+]
+onready var my_sprite = my_sprites[spriteIndex]
+onready var camera = get_parent().get_node_or_null("TheRock/Camera2D")
+
+func _ready() -> void:
+	my_sprite = my_sprites[spriteIndex]
+	for i in range(len(my_sprites)):
+		my_sprites[i].visible = true if i == spriteIndex else false
+	my_sprite.connect("animation_finished", self, "animation_finished")
+
+func animation_finished():
+	if my_sprite.animation == "appearing":
+		my_sprite.play("default")
 
 func is_on_list():
 	return self in Global.players_colliding
+	
 
 func _physics_process(delta):
-	_velocity.x = speed * (Input.get_action_strength("move_right") - Input.get_action_strength("move_left"))
+	_velocity.x = speed if is_on_floor() else 0
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		_velocity.y = -jump_impulse
-	_velocity =  move_and_slide(_velocity, FLOOR_NORMAL, false, 4, 0.785398, false)
-
+		
+	if my_sprite.animation == "appearing":
+		_velocity.y = 0
+	
+	_velocity =  move_and_slide(_velocity, FLOOR_NORMAL, false, 4, 0.785398, false)	
+	
+	if not is_on_floor():
+		var _spawnBorder = 48
+		global_position.x = camera.global_position.x - camera.zoom.x * 500 + _spawnBorder
+		
+	
 	var collided = $RayCast2D.get_collider()
 	if collided:
 		if collided.is_in_group("rock"):
@@ -30,8 +56,9 @@ func _physics_process(delta):
 			Global.players_colliding.erase(self)
 			
 	# Atribuir Sprite:
-	if is_on_list(): my_sprite.play("running")
-	else: _set_sprite(_velocity.x, _velocity.y)
+	if my_sprite.animation != "appearing":
+		if is_on_list(): my_sprite.play("running")
+		else: _set_sprite(_velocity.x, _velocity.y)
 	
 	if position.y > 1000:
 		self.kill()
@@ -52,6 +79,13 @@ func _on_Player_tree_exiting():
 		Global.players_colliding.erase(self)
 
 func kill():
+	print("Player de ID " + str(id) + " morto.")
 	my_sprite.play("disappearing")
 	self.queue_free()
 
+
+
+func _on_activateCollisions_timeout() -> void:
+	print("Tempo esgotado. ID: " + str(id))
+	# Reativar colisões
+	get_node("CollisionShape2D").disabled = false
