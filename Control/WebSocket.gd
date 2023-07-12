@@ -10,7 +10,7 @@ export var QRCodeSprite: Texture
 onready var qrcode = get_node_or_null("qrcode")
 onready var header = get_node_or_null("header")
 onready var debugLabel = get_node_or_null("debug")
-onready var controller = get_parent().get_node("Controller")
+onready var controller = get_parent().get_parent().get_node("Controller")
 
 
 
@@ -57,7 +57,7 @@ func _process(_delta):
 	elif (_client.get_connection_status() == 2):
 		qrcode.visible = true
 	
-		var connectedPlayers = len(get_tree().get_nodes_in_group("Players"))
+		var connectedPlayers = len(get_tree().get_nodes_in_group("players"))
 		if (connectedPlayers <= 0):
 			qrcode.global_position = Vector2(480, 270)
 			header.text = "Conecte-se a partir do QR Code abaixo."
@@ -86,7 +86,7 @@ func data_received():
 		if _p.command == "FORM_PLAYER":
 			debugText("Invocando personagem: " + str(_p.values.name))
 			var _player = controller._spawn_player(rand_range(100, 300), 0)
-			_player.name = _p.values.name
+			_player.playerName = _p.values.name
 
 
 # Função de enviar mensagem - não utilizada

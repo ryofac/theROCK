@@ -10,7 +10,8 @@ var playersToSpawn = []
 
 func _ready() -> void:
 	var _ws = websocket.instance()
-	self.add_child(_ws)
+#	var qrcode = _ws.create_qr_code()
+	get_parent().get_node("CanvasLayer").add_child(_ws)
 	print("Websocket instanciado: " + str(_ws))
 	
 
@@ -24,11 +25,13 @@ func _spawn_player(_x=null, _y=null):
 	var player = playerScene.instance()
 	Global.players_spawned += 1	
 	player.add_to_group("player")
-	player.get_node("Label").text = name_list[randi() % len(name_list)]
+#	player.get_node("Name").text = name_list[randi() % len(name_list)]
 	player.position.x = _x
 	player.position.y = _y
 	player.id = Global.players_spawned
 	player.spriteIndex = randi() % 3
+	player.set_process(false)
+	playersToSpawn.append(player)
 	get_parent().add_child(player)
 	print("Player instanciado na posicao: " + str(_x) + " e " + str(_y))
 	
@@ -44,8 +47,7 @@ func _process(delta):
 			print('Tentando spwanar')
 			# Spawn player
 			var _pl = _spawn_player()
-			_pl.set_process(false)
-			playersToSpawn.append(_pl)
+			
 	
 	# Permitir movimento apenas do primeiro jogador a ser spawnado.
 	if len(playersToSpawn) > 0:

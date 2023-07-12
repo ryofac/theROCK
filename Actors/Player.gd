@@ -12,12 +12,14 @@ onready var my_sprites = [
 ]
 onready var my_sprite = my_sprites[spriteIndex]
 onready var camera = get_parent().get_node_or_null("TheRock/Camera2D")
+var playerName = ""
 
 func _ready() -> void:
 	my_sprite = my_sprites[spriteIndex]
 	for i in range(len(my_sprites)):
 		my_sprites[i].visible = true if i == spriteIndex else false
 	my_sprite.connect("animation_finished", self, "animation_finished")
+	
 
 func animation_finished():
 	if my_sprite.animation == "appearing":
@@ -34,6 +36,8 @@ func removeFromSpawnList():
 
 
 func _physics_process(delta):
+	$Name.text = playerName
+	
 	_velocity.x = speed if is_on_floor() else 0
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		_velocity.y = -jump_impulse
