@@ -12,15 +12,13 @@ onready var header = get_node_or_null("header")
 onready var debugLabel = get_node_or_null("debug")
 onready var controller = get_parent().get_node("Controller")
 
+
+
 func debugText(_text):
-	if typeof(_text) != TYPE_STRING:
-		_text = str(_text)
-		
+	if typeof(_text) != TYPE_STRING: _text = str(_text)
 	print(_text)
-	if (debugLabel != null):
-		debugLabel.text += _text
-		debugLabel.text += '\n'
-		
+	if (debugLabel != null): debugLabel.text += _text + '\n'
+
 
 func spawnPlayer(_x, _y):
 	var _newPlayer = playerScene.instance()
@@ -28,6 +26,7 @@ func spawnPlayer(_x, _y):
 	_newPlayer.position = Vector2(_x, _y)
 	get_parent().add_child(_newPlayer)
 	return _newPlayer
+
 
 func _ready():
 	debugText("Iniciando conexão...")
@@ -46,15 +45,15 @@ func _ready():
 		debugText("Falha ao conectar.")
 		
 func _process(_delta):
-	# Conferir status da conexão:
-	# $SendInfoButton.text = str(_client.get_connection_status())
 	
 	# Receber eventos de network.
 	_client.poll()
 	
+	# Conectando ao Servidor...
 	if (_client.get_connection_status() == 1):
 		header.text = "Conectando-se ao servidor..."
 		qrcode.visible = false
+	# Enquanto devidamente conectado
 	elif (_client.get_connection_status() == 2):
 		qrcode.visible = true
 	
@@ -78,39 +77,31 @@ func data_received():
 	var _package = JSON.parse(payload)
 	var _p = _package.result
 	
+	# Rejeitar o pacote caso possua erros
 	if _package.error != OK:
 		debugText("Pacote com erro.")
 		return
-	else:	# Encomenda sem avarias, pode receber do carteiro.
+	# Encomenda sem avarias, pode receber do carteiro.
+	else:	
 		if _p.command == "FORM_PLAYER":
 			debugText("Invocando personagem: " + str(_p.values.name))
 			var _player = controller._spawn_player(rand_range(100, 300), 0)
 			_player.name = _p.values.name
 
 
+# Função de enviar mensagem - não utilizada
 func send(msg):
 	debugText("Enviando mensagem:\n")
 	debugText(JSON.print(msg))
 	_client.get_peer(1).put_packet(JSON.print(msg).to_utf8())
 
-
-func _on_Button_pressed() -> void:
-	# Deletar todos os Players
-	var players = get_tree().get_nodes_in_group("Players")
-	for player in players:
-		player.queue_free()
-	
-	# Reiniciar jogo
-	if get_tree().reload_current_scene() == OK:
-		print("Reiniciando jogo.")
-
-
-func _on_SendInfoButton_pressed() -> void:
-	var dict = {
-		"command": "aaaa",
-		"values": {
-			"name": "patro"
-		}
-	}
-	send(dict)
-	pass # Replace with function body.
+# Reiniciar Jogo ao apertar botão
+#func _on_Button_pressed() -> void:
+#	# Deletar todos os Players
+#	var players = get_tree().get_nodes_in_group("Players")
+#	for player in players:
+#		player.queue_free()
+#
+#	# Reiniciar jogo
+#	if get_tree().reload_current_scene() == OK:
+#		print("Reiniciando jogo.")
