@@ -44,7 +44,7 @@ func _physics_process(delta):
 
 func apply_rotation(velocity_x):
 	if velocity_x > 0:
-		$RockSprite.rotation_degrees += 0.05 * velocity_x
+		$RockSprite.rotation_degrees += 0.01 * velocity_x
 
 	
 

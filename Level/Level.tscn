@@ -63,4 +63,6 @@ offset = Vector2( 0, 0 )
 
 [node name="Controller" parent="." instance=ExtResource( 2 )]
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
 [editable path="TheRock"]
