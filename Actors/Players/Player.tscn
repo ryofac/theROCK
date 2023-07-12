@@ -679,14 +679,14 @@ visible = false
 position = Vector2( 0, -1 )
 frames = SubResource( 78 )
 animation = "appearing"
-frame = 6
+frame = 1
 playing = true
 
 [node name="SpriteFinn" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 103 )
 animation = "appearing"
-frame = 4
+frame = 6
 playing = true
 
 [node name="SpriteFrog" type="AnimatedSprite" parent="."]
@@ -694,7 +694,7 @@ visible = false
 position = Vector2( 0.25, -1 )
 frames = SubResource( 118 )
 animation = "disappearing"
-frame = 4
+frame = 1
 playing = true
 
 [connection signal="tree_exiting" from="." to="." method="_on_Player_tree_exiting"]
