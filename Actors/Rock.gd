@@ -15,6 +15,7 @@ func _physics_process(delta):
 	velocity.y += gravity * delta
 	
 	# ======= APROACH VELOCITY ======= => move_towards manuals
+	
 	var _newVel = 0
 	
 	if len(Global.players_colliding) > 1: # "Static Atrite"

@@ -13,7 +13,7 @@ export var guyNode:  PackedScene
 # SPAWN_PLAYER: _spawn_player
 
 
-func _spawn_player(_x, _y):
+func _spawn_player(_x=camera.global_position.x - 500, _y=rand_range(camera.global_position.y - 100, camera.global_position.y - 200)):
 	var name_list = ['Patro', 'Hermínio', 'Henrique', 'Lívia', 'Meireles', 'Ryan']
 	var player_list = [finnNode, frogNode, ninjaNode, guyNode]
 	var player = player_list[randi() % len(player_list)].instance()
@@ -34,7 +34,7 @@ func _process(delta):
 	if player_count <= 50:
 		if Input.is_action_just_pressed("spawn_player"):
 			# Spawn player
-			_spawn_player(camera.global_position.x - 500,  rand_range(camera.global_position.y - 100, camera.global_position.y - 200))
+			_spawn_player()
 	get_parent().get_node("TheRock/Label").text += '\n Player count = ' + str(player_count) if player_count <= 50 else "\nNão pode haver mais que 50 jogadores!"
 		
 	if Input.is_action_just_pressed("delete_player"):
