@@ -1,37 +1,52 @@
 extends Actor
 class_name Rock
 
-export var LINEAR_VELOCITY = 2;
-export var WEIGHT = 100;
-var player_count = 0;
-var velocity = Vector2.ZERO;
-var caiu = false;
+var velocity = Vector2.ZERO
+var stopped = velocity.x == 0
+export var WEIGHT = 20;
+export var ATRITE = 2;
+
+
+# Velocity = acc * time => +== acc = F/m
+# F = 1
+# M = 100
 
 
 func _physics_process(delta):
-	get_node("Label").text = "Player count: " + str(player_count) + "\nVelocity X: " + str(velocity.x)
+	var force_applyed = LINEAR_VELOCITY * len(Global.players_colliding)
+#	$Label.text = "\nVelocity X: " + str(velocity.x)
+#	$Label.text += '\n Players colliding: ' + str(len(Global.players_colliding))
 
-	velocity.x = get_velocity_x(player_count)
+	var collider = $RayCast2D.get_collider()
+	if not collider:
+		Global.players_colliding = []
+	velocity.y += gravity * delta
 	
-	velocity.y += gravity * delta	
+	# ======= APROACH VELOCITY ======= => move_towards manuals
+	var _newVel = 0
 	
+	if len(Global.players_colliding) > 1: # "Static Atrite"
+		_newVel = apply_impulse_velocity();
+		
+	var _dif = abs(_newVel - velocity.x);
+	var _sign = sign(_newVel - velocity.x)
+	var _acc = force_applyed / WEIGHT if _sign > 0 else ATRITE
+	if (_dif > _acc):
+		velocity.x += _acc * _sign
+	else:
+		velocity.x = _newVel
+		
+		
+	apply_rotation(velocity.x)
+	Global.rock_velocity = velocity.x
 	velocity = move_and_slide(velocity, Vector2.UP)
+
+
+func apply_rotation(velocity_x):
+	if velocity_x > 0:
+		$RockSprite.rotation_degrees += 0.01 * velocity_x
+
 	
 
 
 	
-
-func get_velocity_x(player_count):
-	var x = (player_count * LINEAR_VELOCITY);
-	x  = clamp(x, 0, 500);
-	return x
-	
-
-
-func _on_Area2D_area_entered(area):
-	print('Increased!');
-	player_count += 1;
-
-func _on_Area2D_area_exited(area):
-	print("Reduced!");
-	player_count -= 1;
