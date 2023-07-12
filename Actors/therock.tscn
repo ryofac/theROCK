@@ -1,15 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Actors/Rock.gd" type="Script" id=1]
-[ext_resource path="res://Actors/Sprites/d72ns19-705ce806-22a6-4112-a4d4-64fcd2fd76dd.png" type="Texture" id=2]
-[ext_resource path="res://PIXELADE.TTF" type="DynamicFontData" id=3]
-
-[sub_resource type="DynamicFont" id=3]
-size = 32
-font_data = ExtResource( 3 )
-
-[sub_resource type="Theme" id=4]
-default_font = SubResource( 3 )
+[ext_resource path="res://Actors/Sprites/RocknRolling.png" type="Texture" id=2]
+[ext_resource path="res://debug_theme.tres" type="Theme" id=3]
 
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 9.63493, 56.5856 )
@@ -24,16 +17,18 @@ scale = Vector2( 0.770141, 0.752302 )
 texture = ExtResource( 2 )
 
 [node name="Label" type="Label" parent="."]
-margin_left = -107.653
-margin_top = -190.766
-margin_right = 115.347
-margin_bottom = -126.766
-theme = SubResource( 4 )
+margin_left = -192.238
+margin_top = -207.967
+margin_right = 30.7621
+margin_bottom = -143.967
+rect_scale = Vector2( 2.02654, 1.97662 )
+theme = ExtResource( 3 )
+text = "TESTANDO LABEL"
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2( -53.8266, 48.4734 )
 rotation = 3.14159
-scale = Vector2( 2.76358, 21.4679 )
+scale = Vector2( 3.25475, 3.92036 )
 enabled = true
 cast_to = Vector2( 52.9039, -0.0521078 )
 
