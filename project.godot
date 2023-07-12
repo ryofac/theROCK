@@ -17,7 +17,7 @@ _global_script_classes=[ {
 "base": "Actor",
 "class": "Player",
 "language": "GDScript",
-"path": "res://Actors/MainCharacter.gd"
+"path": "res://Actors/Player.gd"
 }, {
 "base": "Actor",
 "class": "Rock",

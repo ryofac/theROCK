@@ -1,6 +1,7 @@
 extends KinematicBody2D
 class_name Actor
 
+# Global Variables:
 export var _velocity: = Vector2.ZERO
 export var speed: = 300.0
 export var gravity: = 1000.0
@@ -8,6 +9,7 @@ var FLOOR_NORMAL = Vector2.UP
 var LINEAR_VELOCITY = 10
 var players_colliding = []
 var players_spawned = 0
+var rock_velocity = 0
 
 
 func get_players_colliding():

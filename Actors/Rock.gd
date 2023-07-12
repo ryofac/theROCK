@@ -8,7 +8,7 @@ var stopped = velocity.x == 0
 func _physics_process(delta):
 	$Label.text = "\nVelocity X: " + str(velocity.x)
 	$Label.text += '\n Players colliding: ' + str(len(Global.players_colliding))
-	apply_rotation(velocity.x)
+
 	var collider = $RayCast2D.get_collider()
 	if not collider:
 		Global.players_colliding = []
@@ -27,6 +27,8 @@ func _physics_process(delta):
 		velocity.x += _acc * _sign
 	else:
 		velocity.x = _newVel
+	apply_rotation(velocity.x)
+	Global.rock_velocity = velocity.x
 	velocity = move_and_slide(velocity, Vector2.UP)
 
 
