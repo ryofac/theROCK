@@ -1,4 +1,4 @@
-[gd_scene load_steps=131 format=2]
+[gd_scene load_steps=130 format=2]
 
 [ext_resource path="res://Actors/Player.gd" type="Script" id=1]
 [ext_resource path="res://Actors/Sprites/Pink Man/Run (32x32).png" type="Texture" id=2]
@@ -16,9 +16,6 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 10, 15 )
-
-[sub_resource type="RectangleShape2D" id=26]
-extents = Vector2( 11, 10 )
 
 [sub_resource type="AtlasTexture" id=27]
 flags = 4
@@ -659,13 +656,6 @@ margin_right = 24.0
 margin_bottom = -14.0
 theme = ExtResource( 7 )
 
-[node name="Area2D" type="Area2D" parent="."]
-collision_mask = 3
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
-modulate = Color( 0.878431, 0, 0.678431, 1 )
-shape = SubResource( 26 )
-
 [node name="RayCast2D" type="RayCast2D" parent="."]
 enabled = true
 cast_to = Vector2( 15, 0 )
@@ -679,14 +669,14 @@ visible = false
 position = Vector2( 0, -1 )
 frames = SubResource( 78 )
 animation = "appearing"
-frame = 1
+frame = 4
 playing = true
 
 [node name="SpriteFinn" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 103 )
 animation = "appearing"
-frame = 6
+frame = 2
 playing = true
 
 [node name="SpriteFrog" type="AnimatedSprite" parent="."]
@@ -694,10 +684,8 @@ visible = false
 position = Vector2( 0.25, -1 )
 frames = SubResource( 118 )
 animation = "disappearing"
-frame = 1
+frame = 6
 playing = true
 
 [connection signal="tree_exiting" from="." to="." method="_on_Player_tree_exiting"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
-[connection signal="area_exited" from="Area2D" to="." method="_on_Area2D_area_exited"]
 [connection signal="timeout" from="activateCollisions" to="." method="_on_activateCollisions_timeout"]

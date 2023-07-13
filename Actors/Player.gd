@@ -5,6 +5,7 @@ var inertia = 10.0
 var index = 0;
 var id = 0;
 var spriteIndex = 0
+
 onready var my_sprites = [
 	get_node("SpriteNinja"),
 	get_node("SpriteFinn"),
@@ -37,19 +38,15 @@ func removeFromSpawnList():
 
 func _physics_process(delta):
 	$Name.text = playerName
-	
 	_velocity.x = speed if is_on_floor() else 0
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		_velocity.y = -jump_impulse
-		
 	if my_sprite.animation == "appearing":
 		_velocity.y = 0
-	
-	_velocity =  move_and_slide(_velocity, FLOOR_NORMAL, false, 4, 0.785398, false)	
 	
 	if not is_on_floor():
 		var _spawnBorder = 48
 		global_position.x = camera.global_position.x - camera.zoom.x * 500 + _spawnBorder
+	
+
 	elif global_position.y >= 600:
 		# Pisei no chão, devo sair da lista de players a serem spawnados
 		removeFromSpawnList()
@@ -75,6 +72,7 @@ func _physics_process(delta):
 	if position.y > 1000:
 		removeFromSpawnList()
 		self.kill()
+	_velocity =  move_and_slide(_velocity, FLOOR_NORMAL, false, 4, 0.785398, false)	
 
 
 func _set_sprite(_velx, _vely):
@@ -102,4 +100,5 @@ func kill():
 func _on_activateCollisions_timeout() -> void:
 	print("Tempo esgotado. ID: " + str(id))
 	# Reativar colisões
+	get_node("CollisionShape2D").disabled = false
 	get_node("CollisionShape2D").disabled = false
