@@ -58,7 +58,7 @@ stretch_mode = 1
 position = Vector2( 716, 167 )
 
 [node name="Camera2D" parent="TheRock" index="0"]
-position = Vector2( -306, -118 )
+position = Vector2( -217, -118 )
 offset = Vector2( 0, 0 )
 
 [node name="TileMap" parent="." instance=ExtResource( 1 )]

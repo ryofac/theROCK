@@ -86,14 +86,16 @@ func adjust_zoom(player_list):
 func show_qrcode():
 	canvasNode.get_node("header").text = "a... ROCK?"
 	var webs = get_parent().get_node("WebSocket")
-	if webs.is_online():
-		canvasNode.get_node("qrcode").visible = true
-	if webs.is_offline():
+	if len(players) > 0:
 		canvasNode.get_node("qrcode").visible = false
+	elif webs.is_online():
+		canvasNode.get_node("qrcode").visible = false
+	elif webs.is_offline():
+		canvasNode.get_node("qrcode").visible = false
+	
 
 
 func debug(players):
-	debug_print(playersToSpawn, 91)
 	if Input.is_action_just_pressed("delete_player"):
 		delete_random_player(players)
 	if Input.is_action_just_pressed("force_zoom_in"):

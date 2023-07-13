@@ -13,7 +13,7 @@ func _ready():
 
 func _process(delta):
 	var posx = camera.global_position.x
-	rock.get_node("Label").text = "CREATED TERRAINS: " + str(_terrains_created) + "\n POSX: " + str(posx)
+#DEBUG: rock.get_node("Label").text = "CREATED TERRAINS: " + str(_terrains_created) + "\n POSX: " + str(posx)
 	if floor(int(posx) / UPDATE_RATE) >= _terrains_created:
 		adjust_terrain()
 		_terrains_created += 1
