@@ -5,6 +5,9 @@ var inertia = 10.0
 var index = 0;
 var id = 0;
 var spriteIndex = 0
+var dying = false
+
+# TODO: Player com velocity y ocorrendo em Actor em Process, resolver
 
 onready var my_sprites = [
 	get_node("SpriteNinja"),
@@ -20,6 +23,7 @@ func _ready() -> void:
 	for i in range(len(my_sprites)):
 		my_sprites[i].visible = true if i == spriteIndex else false
 	my_sprite.connect("animation_finished", self, "animation_finished")
+	$Name.rect_global_position.y += 0 if Global.get_player_count() % 2 else -20
 	
 
 func animation_finished():
@@ -39,8 +43,10 @@ func removeFromSpawnList():
 func _physics_process(delta):
 	$Name.text = playerName
 	_velocity.x = speed if is_on_floor() else 0
+	
 	if my_sprite.animation == "appearing":
 		_velocity.y = 0
+	
 	
 	if not is_on_floor():
 		var _spawnBorder = 48
@@ -66,16 +72,20 @@ func _physics_process(delta):
 			
 	# Atribuir Sprite:
 	if my_sprite.animation != "appearing":
-		if is_on_list(): my_sprite.play("running")
-		else: _set_sprite(_velocity.x, _velocity.y)
+		if is_on_list() and not dying: my_sprite.play("running")
+		else:
+			_set_sprite(_velocity.x, _velocity.y) 
 	
 	if position.y > 1000:
 		removeFromSpawnList()
 		self.kill()
-	_velocity =  move_and_slide(_velocity, FLOOR_NORMAL, false, 4, 0.785398, false)	
+	
+	_velocity = move_and_slide(_velocity, FLOOR_NORMAL, false, 4, 0.785398, false)	
 
 
 func _set_sprite(_velx, _vely):
+	if dying:
+		return
 	if _velx == 0 and _vely == 0:
 		my_sprite.play("default")
 	if _velx != 0:
@@ -92,8 +102,11 @@ func _on_Player_tree_exiting():
 
 
 func kill():
+	dying = true
 	print("Player de ID " + str(id) + " morto.")
 	my_sprite.play("disappearing")
+	yield(my_sprite, "animation_finished")
+	_velocity = Vector2.ZERO
 	self.queue_free()
 
 

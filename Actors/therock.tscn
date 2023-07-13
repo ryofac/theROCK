@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Actors/Rock.gd" type="Script" id=1]
 [ext_resource path="res://Actors/Sprites/RocknRolling.png" type="Texture" id=2]
-[ext_resource path="res://debug_theme.tres" type="Theme" id=3]
+[ext_resource path="res://Actors/Players/Text_Ballon.tres" type="Theme" id=3]
 
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 9.63493, 56.5856 )
@@ -112,12 +112,12 @@ texture = ExtResource( 2 )
 [node name="Label" type="Label" parent="."]
 margin_left = -158.0
 margin_top = -161.0
-margin_right = 65.0001
-margin_bottom = -97.0
+margin_right = -31.0
+margin_bottom = -137.0
 rect_scale = Vector2( 2.02654, 1.97662 )
 theme = ExtResource( 3 )
 text = "TESTANDO LABEL"
-percent_visible = 0.0
+align = 1
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2( -46, 79 )

@@ -41,12 +41,13 @@ func adjust_terrain():
 	var border = 20 * camera.zoom.x
 
 	# Delete 3 lines of BORDER tiles to the left:
-	for i in range(0, 4):
+	var TILE_LINES = 3 + floor(Global.get_player_count() / 5)
+	for i in range(0, TILE_LINES):
 		for cell_x in range(0, cx - border):
 			_delete_tile(cell_x, 20) if i <= 0 else _delete_tile(cell_x, 20 + i)
 
 	# Create 3 lines of BORDER tiles to the right:
-	for i in range(0, 4):
+	for i in range(0, TILE_LINES):
 		for cell_x in range(cx, cx + border):
 			_create_tile(cell_x, 20, 1) if i <= 0 else _create_tile(cell_x, 20 + i, 0)
 		

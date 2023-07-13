@@ -21,6 +21,7 @@ func _ready() -> void:
 	
 	
 func _process(delta):
+	check_fullscreen()
 	var players = get_tree().get_nodes_in_group("player")
 	var player_count = len(players)
 	
@@ -28,6 +29,7 @@ func _process(delta):
 		if Input.is_action_just_pressed("spawn_player"):
 			var _pl = _spawn_player()
 			_pl.set_process(false)
+			
 			
 	# Permitir movimento apenas do primeiro jogador a ser spawnado.
 	if len(playersToSpawn) > 0:
@@ -41,9 +43,10 @@ func _process(delta):
 	debug(players)
 	
 
-func _spawn_player(_x=null, _y=null):
+func _spawn_player(_x=null, _y=null, name="Player"):
 	if (_x == null):
-		_x = camera.global_position.x - 500 * camera.zoom.x
+		_x = camera.global_position.x - 600 * max(camera.zoom.x, Global.get_player_count())
+		
 	if (_y == null):
 		_y = camera.global_position.y - 240 * camera.zoom.y
 
@@ -53,6 +56,7 @@ func _spawn_player(_x=null, _y=null):
 	player.add_to_group("player")
 	player.position.x = _x
 	player.position.y = _y
+	player.playerName = name
 	player.id = Global.players_spawned
 	player.spriteIndex = randi() % 3
 	playersToSpawn.append(player)
@@ -84,17 +88,18 @@ func adjust_zoom(player_list):
 
 
 func show_qrcode():
-	canvasNode.get_node("header").text = "a... ROCK?"
+	canvasNode.get_node("header").text = "A... Rock?" if Global.get_player_count() <= 0 else "Escaneie também o QRCODE!"
 	var webs = get_parent().get_node("WebSocket")
 	if len(players) > 0:
 		canvasNode.get_node("qrcode").visible = false
 	elif webs.is_online():
-		canvasNode.get_node("qrcode").visible = false
+		canvasNode.get_node("qrcode").visible = true
 	elif webs.is_offline():
 		canvasNode.get_node("qrcode").visible = false
 	
-
-
+func check_fullscreen():
+	if Input.is_action_just_pressed("toggle_fullscreen"):
+		OS.window_fullscreen = !OS.window_fullscreen
 func debug(players):
 	if Input.is_action_just_pressed("delete_player"):
 		delete_random_player(players)

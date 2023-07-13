@@ -18,19 +18,19 @@ __meta__ = {
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="SkyBackground" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2( 2, 1 )
 motion_mirroring = Vector2( 1080, 0 )
 
 [node name="Sky" type="TextureRect" parent="ParallaxBackground/SkyBackground"]
 show_behind_parent = true
-margin_left = -129.0
-margin_top = -273.0
-margin_right = 1100.0
-margin_bottom = 559.0
+margin_left = -83.0
+margin_top = -52.0
+margin_right = 1116.0
+margin_bottom = 619.0
 texture = ExtResource( 6 )
 expand = true
 
 [node name="MontainsBackground" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.5, 1 )
 motion_mirroring = Vector2( 1080, 0 )
 
 [node name="Montains" type="TextureRect" parent="ParallaxBackground/MontainsBackground"]

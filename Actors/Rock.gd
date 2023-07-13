@@ -6,7 +6,6 @@ var stopped = velocity.x == 0
 export var WEIGHT = 20;
 export var ATRITE = 2;
 onready var INIT_POS = global_position.x
-
 var current_text = ''
 
 
@@ -20,17 +19,18 @@ func _physics_process(delta):
 	# Obtaining the feedback for the distance
 	var distance_traveled = calculate_distance_travel(INIT_POS)
 	
-	if $IdleTimer.is_stopped() or current_text == "":
-		show_distance(distance_traveled)
+	if $IdleTimer.is_stopped():
 		$Label.rect_scale = Vector2(2,2)
+		show_distance(distance_traveled)
 		
 	# Cleaning players_colliding list if no one is touching the rock
 	var collider = $RayCast2D.get_collider()
 	if not collider:
 		Global.players_colliding = []
-		$IdleTimer.start() if $IdleTimer.is_stopped()  else ""
+		$IdleTimer.start() if $IdleTimer.is_stopped() else ""
 	else:
 		$IdleTimer.stop()
+		
 	velocity.y += gravity * delta
 	
 	var force_applyed = LINEAR_VELOCITY * len(Global.players_colliding) # Simulate Physics
@@ -79,8 +79,10 @@ func _on_IdleTimer_timeout():
 	var cool_sentences = ["A qualquer momento...", 
 	"\nSempre foi silencioso aqui?", "Comida tá demorando né?\n Que tal me EMPURRAR!?",
 	"\nTomara que hoje tenha feijoada...", "Cara, queria poder comer \n como voces...",
-	"Gostando de me empurrar? \n Agradeca ao \npessoal do LABIRAS"]
-	current_text = cool_sentences[randi() % len(cool_sentences)]
+	"Gostando de me empurrar? \nMe avalie!"]
+	var choice =  cool_sentences[randi() % len(cool_sentences)]
+	current_text = choice
 	$Label.rect_scale = Vector2(1, 1)
 	$Animator.play("idle_time")
+
 	
