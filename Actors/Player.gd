@@ -47,10 +47,10 @@ func _physics_process(delta):
 	if my_sprite.animation == "appearing":
 		_velocity.y = 0
 	
-	
 	if not is_on_floor():
 		var _spawnBorder = 48
-		global_position.x = camera.global_position.x - camera.zoom.x * 500 + _spawnBorder
+		var _newX = camera.global_position.x - camera.zoom.x * 500 + _spawnBorder;
+		global_position.x = max(_newX, global_position.x)
 	
 
 	elif global_position.y >= 600:
@@ -111,7 +111,5 @@ func kill():
 
 
 func _on_activateCollisions_timeout() -> void:
-	print("Tempo esgotado. ID: " + str(id))
 	# Reativar colisões
-	get_node("CollisionShape2D").disabled = false
 	get_node("CollisionShape2D").disabled = false

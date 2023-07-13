@@ -140,4 +140,20 @@ anims/strech_text_100 = SubResource( 8 )
 [node name="IdleTimer" type="Timer" parent="."]
 wait_time = 5.0
 
+[node name="Particles" type="CPUParticles2D" parent="."]
+position = Vector2( -1.52588e-05, 96 )
+scale = Vector2( 1, 1 )
+amount = 32
+lifetime = 5.0
+randomness = 0.2
+emission_shape = 2
+emission_rect_extents = Vector2( 8, 2 )
+direction = Vector2( -1, 0 )
+spread = 2.0
+gravity = Vector2( 0, -1 )
+initial_velocity = 12.0
+angular_velocity = 2.0
+scale_amount = 3.0
+color = Color( 0.964706, 0.101961, 0.0588235, 1 )
+
 [connection signal="timeout" from="IdleTimer" to="." method="_on_IdleTimer_timeout"]

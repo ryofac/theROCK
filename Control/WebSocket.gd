@@ -37,6 +37,8 @@ func _ready():
 	# Definir funções de callback para cada evento:
 	_client.connect("data_received", self, "data_received")
 	_client.connect("connection_established", self, "connection_established")
+	_client.connect("connection_closed", self, "connection_closed")
+	
 	
 	# Conferir eventuais erros, e interromper processo caso haja:
 	var _err = _client.connect_to_url(_url)
@@ -50,6 +52,10 @@ func _process(_delta):
 
 func connection_established(_subProtocol):
 	debugText("Conexão estabelecida!")
+	
+func connection_closed(_clean):
+	debugText("Conexão encerrada.")
+	if _clean: debugText("De maneira limpa.")
 	
 	
 func data_received():
@@ -66,7 +72,7 @@ func data_received():
 		return
 	# Encomenda sem avarias, pode receber do carteiro.
 	else:	
-		if _p.command == "FORM_PLAYER":
+		if _p.command == "PLAYER_LOGIN":
 			debugText("Invocando personagem: " + str(_p.values.name))
 			var _player = controller._spawn_player(rand_range(100, 300), 0, _p.values.name)
 

@@ -7,6 +7,7 @@ export var WEIGHT = 20;
 export var ATRITE = 2;
 onready var INIT_POS = global_position.x
 var current_text = ''
+onready var particles = get_node("Particles")
 
 
 func _ready():
@@ -49,6 +50,8 @@ func _physics_process(delta):
 	apply_rotation(velocity.x)
 	Global.rock_velocity = velocity.x
 	velocity = move_and_slide(velocity, Vector2.UP)
+	
+	# Manage Particles
 
 
 func apply_rotation(velocity_x):
