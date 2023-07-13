@@ -17,7 +17,7 @@ func get_players_colliding():
 
 
 func get_player_count():
-	return len(players_colliding)
+	return len(get_tree().get_nodes_in_group("player"))
 
 
 func _ready():

@@ -68,8 +68,7 @@ func data_received():
 	else:	
 		if _p.command == "FORM_PLAYER":
 			debugText("Invocando personagem: " + str(_p.values.name))
-			var _player = controller._spawn_player(rand_range(100, 300), 0)
-			_player.playerName = _p.values.name
+			var _player = controller._spawn_player(rand_range(100, 300), 0, _p.values.name)
 
 
 # Função de enviar mensagem - não utilizada
