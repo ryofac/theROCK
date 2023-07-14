@@ -6,19 +6,17 @@
 [ext_resource path="res://Actors/Sprites/Pink Man/Jump (32x32).png" type="Texture" id=4]
 [ext_resource path="res://Actors/Sprites/Desappearing (96x96).png" type="Texture" id=5]
 [ext_resource path="res://Actors/Sprites/Appearing (96x96).png" type="Texture" id=6]
-[ext_resource path="res://debug_theme.tres" type="Theme" id=7]
+[ext_resource path="res://Actors/Players/Text_Ballon.tres" type="Theme" id=7]
 [ext_resource path="res://Actors/Sprites/Mask Dude/Jump (32x32).png" type="Texture" id=8]
 [ext_resource path="res://Actors/Sprites/Ninja Frog/Idle (32x32).png" type="Texture" id=9]
 [ext_resource path="res://Actors/Sprites/Ninja Frog/Jump (32x32).png" type="Texture" id=10]
 [ext_resource path="res://Actors/Sprites/Ninja Frog/Run (32x32).png" type="Texture" id=11]
 [ext_resource path="res://Actors/Sprites/Mask Dude/Idle (32x32).png" type="Texture" id=12]
 [ext_resource path="res://Actors/Sprites/Mask Dude/Run (32x32).png" type="Texture" id=13]
+[ext_resource path="res://Actors/Players/Player.tres" type="StyleBox" id=14]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 10, 15 )
-
-[sub_resource type="RectangleShape2D" id=26]
-extents = Vector2( 11, 10 )
 
 [sub_resource type="AtlasTexture" id=27]
 flags = 4
@@ -220,7 +218,7 @@ animations = [ {
 "frames": [ SubResource( 45 ), SubResource( 46 ), SubResource( 47 ), SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ) ],
 "loop": true,
 "name": "disappearing",
-"speed": 10.0
+"speed": 24.0
 }, {
 "frames": [ ExtResource( 8 ) ],
 "loop": true,
@@ -628,7 +626,7 @@ animations = [ {
 "frames": [ SubResource( 111 ), SubResource( 112 ), SubResource( 113 ), SubResource( 114 ), SubResource( 115 ), SubResource( 116 ), SubResource( 117 ) ],
 "loop": true,
 "name": "disappearing",
-"speed": 10.0
+"speed": 24.0
 }, {
 "frames": [ ExtResource( 10 ) ],
 "loop": true,
@@ -643,6 +641,7 @@ animations = [ {
 
 [node name="Player" type="KinematicBody2D" groups=["player"]]
 position = Vector2( 0, -17 )
+scale = Vector2( 1.42925, 1.35541 )
 collision_mask = 7
 script = ExtResource( 1 )
 
@@ -650,21 +649,6 @@ script = ExtResource( 1 )
 position = Vector2( 0, 1 )
 shape = SubResource( 1 )
 disabled = true
-
-[node name="Name" type="Label" parent="."]
-modulate = Color( 0, 0, 0, 1 )
-margin_left = -16.0
-margin_top = -28.0
-margin_right = 24.0
-margin_bottom = -14.0
-theme = ExtResource( 7 )
-
-[node name="Area2D" type="Area2D" parent="."]
-collision_mask = 3
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
-modulate = Color( 0.878431, 0, 0.678431, 1 )
-shape = SubResource( 26 )
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 enabled = true
@@ -679,14 +663,14 @@ visible = false
 position = Vector2( 0, -1 )
 frames = SubResource( 78 )
 animation = "appearing"
-frame = 6
+frame = 3
 playing = true
 
 [node name="SpriteFinn" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 103 )
 animation = "appearing"
-frame = 4
+frame = 1
 playing = true
 
 [node name="SpriteFrog" type="AnimatedSprite" parent="."]
@@ -694,10 +678,18 @@ visible = false
 position = Vector2( 0.25, -1 )
 frames = SubResource( 118 )
 animation = "disappearing"
-frame = 4
+frame = 2
 playing = true
 
+[node name="Name" type="Label" parent="."]
+margin_left = -34.0
+margin_top = -39.0
+margin_right = 32.0
+margin_bottom = -12.0
+theme = ExtResource( 7 )
+custom_styles/normal = ExtResource( 14 )
+align = 1
+valign = 1
+
 [connection signal="tree_exiting" from="." to="." method="_on_Player_tree_exiting"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
-[connection signal="area_exited" from="Area2D" to="." method="_on_Area2D_area_exited"]
 [connection signal="timeout" from="activateCollisions" to="." method="_on_activateCollisions_timeout"]

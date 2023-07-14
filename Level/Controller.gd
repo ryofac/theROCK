@@ -1,72 +1,76 @@
 extends Node
 
-export var playerScene : PackedScene
+export var playerScene: PackedScene
+export var websocketScene: PackedScene
+
 onready var tileMap = get_parent().get_node("TileMap")
 onready var rockNode = get_parent().get_node("TheRock")
+onready var canvasNode = get_parent().get_node("GUI/MainScreen")
 onready var camera = get_parent().get_node("TheRock/Camera2D")
-export var websocket: PackedScene
+onready var players = get_tree().get_nodes_in_group("player")
+
+
+onready var player_count = len(players)
 var playersToSpawn = []
 
 
 func _ready() -> void:
-	var _ws = websocket.instance()
-#	var qrcode = _ws.create_qr_code()
-	get_parent().get_node("CanvasLayer").add_child(_ws)
-	print("Websocket instanciado: " + str(_ws))
-	
-
-func _spawn_player(_x=null, _y=null):
-	if (_x == null):
-		_x = camera.global_position.x - 500 * camera.zoom.x
-	if (_y == null):
-		_y = camera.global_position.y - 240 * camera.zoom.y
-	var name_list = ['Patro', 'Hermínio', 'Henrique', 'Lívia', 'Meireles', 'Ryan']
-		
-	var player = playerScene.instance()
-	Global.players_spawned += 1	
-	player.add_to_group("player")
-#	player.get_node("Name").text = name_list[randi() % len(name_list)]
-	player.position.x = _x
-	player.position.y = _y
-	player.id = Global.players_spawned
-	player.spriteIndex = randi() % 3
-	player.set_process(false)
-	playersToSpawn.append(player)
-	get_parent().add_child(player)
-	print("Player instanciado na posicao: " + str(_x) + " e " + str(_y))
-	
-	return player
+	var webs = websocketScene.instance()
+	get_parent().call_deferred("add_child", webs)
+	print(webs)
 	
 	
 func _process(delta):
+	check_fullscreen()
 	var players = get_tree().get_nodes_in_group("player")
 	var player_count = len(players)
 	
 	if player_count <= 50:
 		if Input.is_action_just_pressed("spawn_player"):
-			print('Tentando spwanar')
-			# Spawn player
 			var _pl = _spawn_player()
+			_pl.set_process(false)
 			
-	
+			
 	# Permitir movimento apenas do primeiro jogador a ser spawnado.
 	if len(playersToSpawn) > 0:
 		playersToSpawn[0].set_process(true)
 		var _timer = playersToSpawn[0].get_node("activateCollisions")
 		if _timer.is_stopped():
 			_timer.start()
-		
-	if Input.is_action_just_pressed("delete_player"):
-		delete_random_player(players)
+	
+	show_qrcode()
 	adjust_zoom(players)
+	debug(players)
+	
 
+func _spawn_player(_x=null, _y=null, name="Player"):
+	if (_x == null):
+		_x = camera.global_position.x - 600 * max(camera.zoom.x, Global.get_player_count())
+		
+	if (_y == null):
+		_y = camera.global_position.y - 240 * camera.zoom.y
+
+		
+	var player = playerScene.instance()
+	Global.players_spawned += 1	
+	player.add_to_group("player")
+	player.position.x = _x
+	player.position.y = _y
+	player.playerName = name
+	player.id = Global.players_spawned
+	player.spriteIndex = randi() % 3
+	playersToSpawn.append(player)
+	get_parent().add_child(player)
+	print("Player instanciado na posicao: " + str(_x) + " e " + str(_y))
+	return player
 
 
 func delete_random_player(player_list):
 	if len(player_list) > 0:
 		var random_player = player_list[randi() % len(player_list)]
 		random_player.kill()
-		
+
+
 func adjust_zoom(player_list):
 	var start_zoom = 0.8
 	var factor_zoom = floor(len(player_list) / 10) * 0.1
@@ -81,4 +85,30 @@ func adjust_zoom(player_list):
 	camera.zoom = Vector2(_actualZoom, _actualZoom)
 	camera.global_position.y = 550 - _actualZoom * 100
 	camera.limit_bottom = start_zoom * 1000 + 80 * _actualZoom
+
+
+func show_qrcode():
+	canvasNode.get_node("header").text = "A... Rock?" if Global.get_player_count() <= 0 else "Escaneie também o QRCODE!"
+	var webs = get_parent().get_node("WebSocket")
+	if len(players) > 0:
+		canvasNode.get_node("qrcode").visible = false
+	elif webs.is_online():
+		canvasNode.get_node("qrcode").visible = true
+	elif webs.is_offline():
+		canvasNode.get_node("qrcode").visible = false
 	
+func check_fullscreen():
+	if Input.is_action_just_pressed("toggle_fullscreen"):
+		OS.window_fullscreen = !OS.window_fullscreen
+func debug(players):
+	if Input.is_action_just_pressed("delete_player"):
+		delete_random_player(players)
+	if Input.is_action_just_pressed("force_zoom_in"):
+		camera.zoom.x += 1
+		camera.zoom.y += 1
+	if Input.is_action_just_pressed("force_zoom_out"):
+		camera.zoom.x -= 1
+		camera.zoom.y -= 1
+
+func debug_print(text, line):
+	print("DEBUG: " + str(text) + "LINE: " + str(line))

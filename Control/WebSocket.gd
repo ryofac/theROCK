@@ -10,7 +10,7 @@ export var QRCodeSprite: Texture
 onready var qrcode = get_node_or_null("qrcode")
 onready var header = get_node_or_null("header")
 onready var debugLabel = get_node_or_null("debug")
-onready var controller = get_parent().get_parent().get_node("Controller")
+onready var controller = get_parent().get_node("Controller")
 
 
 
@@ -32,11 +32,13 @@ func _ready():
 	debugText("Iniciando conexão...")
 	
 	# Atribuir sprite do QR Code
-	qrcode.texture = QRCodeSprite
+#	qrcode.texture = QRCodeSprite
 	
 	# Definir funções de callback para cada evento:
 	_client.connect("data_received", self, "data_received")
 	_client.connect("connection_established", self, "connection_established")
+	_client.connect("connection_closed", self, "connection_closed")
+	
 	
 	# Conferir eventuais erros, e interromper processo caso haja:
 	var _err = _client.connect_to_url(_url)
@@ -45,28 +47,15 @@ func _ready():
 		debugText("Falha ao conectar.")
 		
 func _process(_delta):
-	
 	# Receber eventos de network.
 	_client.poll()
-	
-	# Conectando ao Servidor...
-	if (_client.get_connection_status() == 1):
-		header.text = "Conectando-se ao servidor..."
-		qrcode.visible = false
-	# Enquanto devidamente conectado
-	elif (_client.get_connection_status() == 2):
-		qrcode.visible = true
-	
-		var connectedPlayers = len(get_tree().get_nodes_in_group("players"))
-		if (connectedPlayers <= 0):
-			qrcode.global_position = Vector2(480, 270)
-			header.text = "Conecte-se a partir do QR Code abaixo."
-		else:
-			qrcode.global_position = Vector2(840, 380)
-			header.text = "Jogadores conectados: " + str(connectedPlayers)
-	
+
 func connection_established(_subProtocol):
 	debugText("Conexão estabelecida!")
+	
+func connection_closed(_clean):
+	debugText("Conexão encerrada.")
+	if _clean: debugText("De maneira limpa.")
 	
 	
 func data_received():
@@ -83,10 +72,9 @@ func data_received():
 		return
 	# Encomenda sem avarias, pode receber do carteiro.
 	else:	
-		if _p.command == "FORM_PLAYER":
+		if _p.command == "PLAYER_LOGIN":
 			debugText("Invocando personagem: " + str(_p.values.name))
-			var _player = controller._spawn_player(rand_range(100, 300), 0)
-			_player.playerName = _p.values.name
+			var _player = controller._spawn_player(rand_range(100, 300), 0, _p.values.name)
 
 
 # Função de enviar mensagem - não utilizada
@@ -94,6 +82,18 @@ func send(msg):
 	debugText("Enviando mensagem:\n")
 	debugText(JSON.print(msg))
 	_client.get_peer(1).put_packet(JSON.print(msg).to_utf8())
+	
+func is_online():
+	return _client.get_connection_status() == 2
+	
+func is_conneting():
+	return _client.get_connection_status() == 1
+
+func is_offline():
+	return _client.get_connection_status() == 0
+
+
+
 
 # Reiniciar Jogo ao apertar botão
 #func _on_Button_pressed() -> void:
