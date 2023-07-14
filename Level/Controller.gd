@@ -2,6 +2,7 @@ extends Node
 
 export var playerScene: PackedScene
 export var websocketScene: PackedScene
+export var gameMessage: PackedScene
 
 onready var tileMap = get_parent().get_node("TileMap")
 onready var rockNode = get_parent().get_node("TheRock")
@@ -65,6 +66,7 @@ func _spawn_player(_x=null, _y=null, name="Player"):
 	playersToSpawn.append(player)
 	get_parent().add_child(player)
 	print("Player instanciado na posicao: " + str(_x) + " e " + str(_y))
+	showGameMessage("Bem-vindo, " + str(name) + "!")
 	return player
 
 
@@ -90,9 +92,22 @@ func adjust_zoom(player_list):
 	camera.limit_bottom = start_zoom * 1000 + 80 * _actualZoom
 
 
-func show_qrcode():
+func setStatus(_statusText):
+	canvasNode.get_node("statusLabel").text = str(_statusText)
 	
-	canvasNode.get_node("header").text = "A... Rock?" if Global.get_player_count() <= 0 else "Jogadores Ativos: " + str(Global.get_player_count())
+	
+func showGameMessage(_text):
+	var msg = gameMessage.instance()
+	canvasNode.add_child(msg)
+	print("Message instance: " + str(msg))
+	print("Text to show: " + str(_text))
+	msg.text = _text
+
+
+func show_qrcode():
+	canvasNode.get_node("header").text = "A... Rock?" if Global.get_player_count() <= 0 else ""
+	setStatus("Jogadores Ativos: " + str(Global.get_player_count()))
+	
 	var webs = get_parent().get_node("WebSocket")
 	if webs.is_online() and not webs.is_offline():
 		qr_sprite.visible = true

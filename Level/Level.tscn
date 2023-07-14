@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Level/Tilemap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Control/Controller.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Level/LevelSprites/Sky_desert1-1.png" type="Texture" id=6]
 [ext_resource path="res://Visual/MainScreen.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Control/WebSocket.tscn" type="PackedScene" id=8]
+[ext_resource path="res://gameMessage.tscn" type="PackedScene" id=9]
 
 [node name="Level" type="Node"]
 __meta__ = {
@@ -66,6 +67,7 @@ offset = Vector2( 0, 0 )
 
 [node name="Controller" parent="." instance=ExtResource( 2 )]
 websocketScene = ExtResource( 8 )
+gameMessage = ExtResource( 9 )
 
 [node name="GUI" type="CanvasLayer" parent="."]
 
