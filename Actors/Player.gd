@@ -1,5 +1,6 @@
 extends Actor
 class_name Player
+onready var _control = get_parent().get_node("Controller")
 var jump_impulse = 500.0
 var inertia = 10.0
 var index = 0;
@@ -25,6 +26,7 @@ func _ready() -> void:
 	my_sprite.connect("animation_finished", self, "animation_finished")
 	$Name.rect_global_position.y += 0 if Global.get_player_count() % 2 else -20
 	
+	
 
 func animation_finished():
 	if my_sprite.animation == "appearing":
@@ -35,13 +37,17 @@ func is_on_list():
 	
 
 func removeFromSpawnList():
-	var _control = get_parent().get_node("Controller")
+	
 	if self in _control.playersToSpawn:
 		_control.playersToSpawn.erase(self)
 
 
 func _physics_process(delta):
 	$Name.text = playerName
+	if not self in _control.playersToSpawn:
+		$remaining_time.text = str(int($death_timer.time_left)) + "s"
+		if $death_timer.is_stopped():
+			$death_timer.start()
 	_velocity.x = speed if is_on_floor() else 0
 	
 	if my_sprite.animation == "appearing":
@@ -113,3 +119,7 @@ func kill():
 func _on_activateCollisions_timeout() -> void:
 	# Reativar colisões
 	get_node("CollisionShape2D").disabled = false
+
+
+func _on_death_timer_timeout() -> void:
+	self.kill()

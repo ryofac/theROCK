@@ -65,7 +65,7 @@ func apply_text(text):
 	
 func show_distance(distance_traveled):
 	if distance_traveled > 1000:
-		current_text = str(distance_traveled % 1000) + 'km'
+		current_text = str(int(distance_traveled) / 1000) + 'km'
 	else:
 		current_text = str(int(distance_traveled)) + 'm'
 		

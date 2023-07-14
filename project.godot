@@ -34,6 +34,9 @@ _global_script_class_icons={
 
 config/name="Rasberrypi"
 run/main_scene="res://Level/Level.tscn"
+boot_splash/show_image=false
+boot_splash/use_filter=false
+boot_splash/bg_color=Color( 0.141176, 0.141176, 0.141176, 1 )
 config/icon="res://icon.png"
 
 [autoload]
@@ -43,8 +46,9 @@ Global="*res://Actors/Actor.gd"
 [display]
 
 window/size/resizable=false
+window/ios/hide_home_indicator=false
 window/stretch/mode="viewport"
-window/stretch/aspect="expand"
+window/stretch/aspect="keep"
 
 [global]
 
@@ -113,7 +117,10 @@ common/enable_pause_aware_picking=true
 [rendering]
 
 quality/driver/driver_name="GLES2"
+2d/snapping/use_gpu_pixel_snap=true
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
+quality/shadows/filter_mode=0
 quality/filters/anisotropic_filter_level=1
 environment/default_environment="res://default_env.tres"
+quality/dynamic_fonts/use_oversampling=false

@@ -39,16 +39,19 @@ func _ready():
 	_client.connect("data_received", self, "data_received")
 	_client.connect("connection_established", self, "connection_established")
 	_client.connect("connection_closed", self, "connection_closed")
+	_client.connect("connection_error", self, "connection_error")
 	try_to_connect()
 	
 		
 func _process(_delta):
 	# Receber eventos de network.
+	_client.poll()
+
 	if is_offline():
 		if $Timer.is_stopped(): $Timer.start()
 	else:
 		$Timer.stop()
-	_client.poll()
+	
 	
 
 	
@@ -66,9 +69,6 @@ func try_to_connect():
 	if is_offline():
 		print("Agora estou oficialmente offline!")
 		$Timer.start()
-		
-	elif is_connecting():
-		$Timer2.start()
 
 func connection_established(_subProtocol):
 	debugText("Conexão estabelecida!")
@@ -76,6 +76,9 @@ func connection_established(_subProtocol):
 func connection_closed(_clean):
 	debugText("Conexão encerrada.")
 	if _clean: debugText("De maneira limpa. (Possível memória cheia)")
+
+func connection_error():
+	debugText("Deu merda!")
 	
 	
 func data_received():
@@ -126,13 +129,7 @@ func is_offline():
 #		print("Reiniciando jogo."
 
 
-func _on_Timer2_timeout():
-	if not is_online():
-		print('Timeout')
-		try_to_connect()
-		if is_offline():
-			if $Timer.is_stopped(): $Timer.start()
 
 
 func _on_Timer_timeout():
-	print("Estou offline")
+	try_to_connect()
