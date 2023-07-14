@@ -9,7 +9,10 @@ onready var canvasNode = get_parent().get_node("GUI/MainScreen")
 onready var camera = get_parent().get_node("TheRock/Camera2D")
 onready var players = get_tree().get_nodes_in_group("player")
 
-
+onready var qr_sprite = canvasNode.get_node("qrcode")
+var animation_times_played = 0
+var hided = false
+	
 onready var player_count = len(players)
 var playersToSpawn = []
 
@@ -18,13 +21,13 @@ func _ready() -> void:
 	var webs = websocketScene.instance()
 	get_parent().call_deferred("add_child", webs)
 	print(webs)
+	qr_sprite.position.x = 300
+	qr_sprite.position.y = 273
 	
 	
 func _process(delta):
-	check_fullscreen()
 	var players = get_tree().get_nodes_in_group("player")
 	var player_count = len(players)
-	
 	if player_count <= 50:
 		if Input.is_action_just_pressed("spawn_player"):
 			var _pl = _spawn_player()
@@ -41,7 +44,7 @@ func _process(delta):
 	show_qrcode()
 	adjust_zoom(players)
 	debug(players)
-	
+	animate_qr_code()
 
 func _spawn_player(_x=null, _y=null, name="Player"):
 	if (_x == null):
@@ -88,15 +91,44 @@ func adjust_zoom(player_list):
 
 
 func show_qrcode():
+	
 	canvasNode.get_node("header").text = "A... Rock?" if Global.get_player_count() <= 0 else "Escaneie também o QRCODE!"
 	var webs = get_parent().get_node("WebSocket")
-	if len(players) > 0:
-		canvasNode.get_node("qrcode").visible = false
-	elif webs.is_online():
-		canvasNode.get_node("qrcode").visible = true
-	elif webs.is_offline():
-		canvasNode.get_node("qrcode").visible = false
+	if webs.is_online() and not webs.is_offline():
+		qr_sprite.visible = true
+		qr_sprite.modulate = Color(1, 1, 1, 1)
+		qr_sprite.get_node("ColorRect").visible = false
+		qr_sprite.get_node("Conecte-se!").text = "Conecte-se"
+		
+	if webs.is_offline():
+		qr_sprite.modulate = Color(1, 0, 0, 0.5)
+		qr_sprite.get_node("ColorRect").visible = true
+		qr_sprite.get_node("Conecte-se!").text = "OFFLINE"
+		
+	if webs.is_connecting():
+		qr_sprite.modulate = Color(1, 1, 0, 0.5)
+		qr_sprite.get_node("Conecte-se!").text = "Tentando conectar..."
+		
+
+func animate_qr_code():
+	if Global.get_player_count() > 0:
+		if hided:
+			return
+		canvasNode.get_node("Animator").play("HideQrCode")
+		hided = true
+		
+	if Global.get_player_count() <= 0:
+		if not hided:
+			return
+		canvasNode.get_node("Animator").play_backwards("HideQrCode")
+		hided = false
+
+
 	
+	
+		
+	
+		
 func check_fullscreen():
 	if Input.is_action_just_pressed("toggle_fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
@@ -109,6 +141,8 @@ func debug(players):
 	if Input.is_action_just_pressed("force_zoom_out"):
 		camera.zoom.x -= 1
 		camera.zoom.y -= 1
+	if Input.is_action_just_pressed("ui_accept"):
+		get_tree().reload_current_scene()
 
 func debug_print(text, line):
 	print("DEBUG: " + str(text) + "LINE: " + str(line))
