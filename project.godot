@@ -45,6 +45,8 @@ Global="*res://Actors/Actor.gd"
 
 [display]
 
+window/size/width=960
+window/size/height=540
 window/size/resizable=false
 window/ios/hide_home_indicator=false
 window/stretch/mode="viewport"
