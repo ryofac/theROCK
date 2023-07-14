@@ -6,3 +6,12 @@
 [node name="WebSocket" type="Node"]
 script = ExtResource( 1 )
 QRCodeSprite = ExtResource( 2 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="Timer2" type="Timer" parent="."]
+wait_time = 5.0
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="Timer2" to="." method="_on_Timer2_timeout"]
