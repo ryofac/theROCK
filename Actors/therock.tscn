@@ -2,11 +2,11 @@
 
 [ext_resource path="res://Actors/Rock.gd" type="Script" id=1]
 [ext_resource path="res://Actors/Sprites/RocknRolling.png" type="Texture" id=2]
-[ext_resource path="res://Actors/Players/Text_Ballon.tres" type="Theme" id=3]
+[ext_resource path="res://debug_theme.tres" type="Theme" id=3]
 [ext_resource path="res://MatchupPro.ttf" type="DynamicFontData" id=4]
 
 [sub_resource type="DynamicFont" id=10]
-size = 24
+size = 26
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 4 )
@@ -121,14 +121,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -158.0
+margin_left = -152.0
 margin_top = -161.0
-margin_right = -31.0
-margin_bottom = -137.0
+margin_right = -6.0
+margin_bottom = -139.0
 rect_scale = Vector2( 2.02654, 1.97662 )
+size_flags_vertical = 2
 theme = ExtResource( 3 )
 custom_fonts/font = SubResource( 10 )
-text = "TESTANDO LABEL"
+text = "TESTANDO A LABEL"
 align = 1
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
