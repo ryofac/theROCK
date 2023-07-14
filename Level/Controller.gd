@@ -40,7 +40,7 @@ func _process(delta):
 		var _timer = playersToSpawn[0].get_node("activateCollisions")
 		if _timer.is_stopped():
 			_timer.start()
-	
+	check_fullscreen()
 	show_qrcode()
 	adjust_zoom(players)
 	debug(players)
@@ -92,7 +92,7 @@ func adjust_zoom(player_list):
 
 func show_qrcode():
 	
-	canvasNode.get_node("header").text = "A... Rock?" if Global.get_player_count() <= 0 else "Escaneie também o QRCODE!"
+	canvasNode.get_node("header").text = "A... Rock?" if Global.get_player_count() <= 0 else "Jogadores Ativos: " + str(Global.get_player_count())
 	var webs = get_parent().get_node("WebSocket")
 	if webs.is_online() and not webs.is_offline():
 		qr_sprite.visible = true
@@ -132,6 +132,7 @@ func animate_qr_code():
 func check_fullscreen():
 	if Input.is_action_just_pressed("toggle_fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
+		
 func debug(players):
 	if Input.is_action_just_pressed("delete_player"):
 		delete_random_player(players)
