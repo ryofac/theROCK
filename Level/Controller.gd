@@ -45,6 +45,7 @@ func _process(delta):
 	adjust_zoom(players)
 	debug(players)
 	animate_qr_code()
+	check_fullscreen()
 
 func _spawn_player(_x=null, _y=null, name="Player"):
 	if (_x == null):
